@@ -1,6 +1,8 @@
 <?php
   session_start();
-  //var_dump($_SESSION);
+  //if (isset($_COOKIE["UsuarioLogueado"])) {
+  //  $_SESSION["usuario"] = $_COOKIE["UsuarioLogueado"];
+  //}
   $json = file_get_contents("users.json");
   $jsonDecode = json_decode($json, true);
   //echo "<pre>";var_dump($jsonDecode);echo "</pre>";

@@ -1,9 +1,18 @@
 <?php
   session_start();
+  //if (isset($_COOKIE["UsuarioLogueado"])) {
+  //  $_SESSION["usuario"] = $_COOKIE["UsuarioLogueado"];
+  //}
   if ($_POST) {
     if (isset($_POST["reset"])) {
-      $_SESSION["usuario"] = "";
+      $_SESSION["usuario"] = null;
+      //setcookie($loginCookie, $rememberMeCookie, time()-1);
       header("Location: listadoUsuarios.php");
+    }
+    if (isset($_POST["rememberMe"])) {
+      $loginCookie = "UsuarioLogueado";
+      $rememberMeCookie = $_POST["email"];
+      setcookie($loginCookie, $rememberMeCookie, time()+60*60*24*7);
     }
     $json = file_get_contents("users.json");
     $jsonDecode = json_decode($json, true);
@@ -34,7 +43,6 @@
     <title>Login</title>
   </head>
   <body>
-    <?= isset($logueado) ? $logueado : '';?>
     <form class="" action="" method="post">
       <label for="user">Email</label>
       <input type="email" name="email" value="">
@@ -45,9 +53,11 @@
       <input type="password" name="password" value="">
       <br>
       <?= isset($errorPass) ? $errorPass : '';?>
+      <br>
+      <input type="checkbox" name="rememberMe" value="rememberMe"><label for="rememberMe">Recordarme</label>
       <br><br>
       <input type="submit" name="" value="Iniciar sesión">
-      <?= $_SESSION["usuario"] != "" ? "<input type='submit' name='reset' value='Cerrar sesión'>" : '';?>
+      <?= isset($_SESSION["usuario"]) ? "<input type='submit' name='reset' value='Cerrar sesión'>" : '';?>
     </form>
   </body>
 </html>
