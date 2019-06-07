@@ -16,6 +16,7 @@
   if ($_POST) {
     $jsonDecode[$userPos]["fullName"] = $_POST["fullName"];
     file_put_contents("users.json", json_encode($jsonDecode));
+    $nombre = $_POST["fullName"];
   }
 ?>
 
